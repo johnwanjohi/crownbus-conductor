@@ -1,0 +1,23 @@
+<ion-content class="bg-image" style="vertical-align: center" padding>
+  <br>
+  <br><br><br><br><br>
+  <ion-card class="transparent">
+    
+      <img  class="transparent" src="assets/imgs/crownbus_logo.jpg"/>
+    
+  <ion-list class="transparent">
+    <ion-item  class="transparent">
+      <ion-label color="primary" floating>Username</ion-label>
+      <ion-input style="border-bottom-width: 2px;" [(ngModel)]='inputData.username'></ion-input>
+    </ion-item>
+    <ion-item  class="transparent">
+      <ion-label color="primary" floating>Password</ion-label>
+      <ion-input type="password"  [(ngModel)]='inputData.password'></ion-input>
+    </ion-item>    
+  </ion-list>
+  <div padding>
+    <button ion-button color="primary" block (click)="loginUser(inputData)">Sign In</button>
+  </div>
+</ion-card>
+</ion-content>
+

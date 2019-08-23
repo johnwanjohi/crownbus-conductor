@@ -26,5 +26,3 @@ Sample use of ionic 3 with a bluetooth esc/pos thermal printer using the plugin 
 ## Tested devices
 * zjiang 5802(58mm)
 
-# cronbus-conductor
-# cronbus-conductor
