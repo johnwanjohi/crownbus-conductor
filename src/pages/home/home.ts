@@ -7,7 +7,7 @@ import {
 } from 'ionic-angular';
 import { PrinterProvider } from './../../providers/printer/printer';
 import { commands } from './../../providers/printer/printer-commands';
-
+import { UserProvider } from '../../providers/user/user';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -15,16 +15,20 @@ import { commands } from './../../providers/printer/printer-commands';
 export class HomePage {
   receipt: any;
   inputData: any = {};
+  username: any;
+  condMobileNumber: any;
   constructor(
     public navCtrl: NavController,
     private printer: PrinterProvider,
     private alertCtrl: AlertController,
     private loadCtrl: LoadingController,
     private toastCtrl: ToastController,
-    public navParams: NavParams
+    public navParams: NavParams,
+    public userProvider: UserProvider
   ) {
-    console.dir(this.navParams.data.userData.username)
-    alert(this.navParams.data.userData.username);
+    // console.dir(this.navParams.data.userData.username)
+    // alert(this.navParams.data.response[0].Nome);
+    this.username = userProvider.username;     
   }
 
   showToast(data) {
@@ -35,7 +39,7 @@ export class HomePage {
     });
     toast.present();
   }
-
+  
   noSpecialChars(string) {
     var translate = {
         à: 'a',

@@ -26,5 +26,9 @@ page-login {
           font-size: 1.2em;
         }
       }
+      img {
+        opacity: 0.7;
+        filter: alpha(opacity=50); /* For IE8 and earlier */
+      }
 
 }

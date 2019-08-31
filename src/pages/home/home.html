@@ -1,20 +1,46 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>
-      Bluetooth Receipt Print
+      Bluetooth Receipt Print {{username}}
     </ion-title>
   </ion-navbar>
 </ion-header>
-
 <ion-content padding>
   <ion-list>
     <ion-item>
-      <ion-label color="primary" floating>Title</ion-label>
-      <ion-input [(ngModel)]='inputData.title'></ion-input>
+        <ion-label color="primary" floating>
+          <ion-icon name="calendar"></ion-icon>
+          Date
+        </ion-label>
+        <ion-input type="date" [(ngModel)]='inputData.date'></ion-input>
+      </ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>
+        <ion-icon name="bus"></ion-icon>
+        V. Reg. No
+      </ion-label>
+      <ion-input [(ngModel)]='inputData.reg_no'></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label color="primary" floating>Text</ion-label>
-      <ion-input [(ngModel)]='inputData.text'></ion-input>
+      <ion-label color="primary" floating>
+        <ion-icon name="arrow-round-down"></ion-icon>
+        From Town
+      </ion-label>
+      <ion-input [(ngModel)]='inputData.fromtown'></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>
+        <ion-icon name="arrow-round-forward"></ion-icon>
+        To Town
+      </ion-label>
+      <ion-input [(ngModel)]='inputData.totown'></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>
+        <ion-icon name="cash"></ion-icon>
+        Amount
+      </ion-label>
+      <ion-input type="number" [(ngModel)]='inputData.amount'></ion-input>
     </ion-item>
     <div hidden></div>
   </ion-list>

@@ -1,0 +1,24 @@
+<ion-header color="primary">
+  <ion-navbar color="primary">
+    <ion-title>Dashboard {{username}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding >
+    <ion-card>
+        <ion-card-header color="primary">
+          <b>What to do</b>
+        </ion-card-header>      
+        <ion-list color="primary">
+          <button ion-item (click)="navigateToHomePage()">
+            <ion-icon color="primary" name="cart" item-start></ion-icon>
+            Print Receipt
+          </button>
+      
+          <button ion-item>
+            <ion-icon color="primary" name="medical" item-start></ion-icon>
+            View Buses you've been scheduled
+          </button>
+      
+        </ion-list>
+      </ion-card>
+</ion-content>
