@@ -9,6 +9,7 @@ import { Injectable } from '@angular/core';
 export class UserProvider {
   username: string;
   sub_station: string;
+  t_username: string;
 
   constructor(public http: HttpClient) {
     console.log('Hello UserProvider Provider');
@@ -18,5 +19,6 @@ export class UserProvider {
     console.log(userData[0].sub_station);
     this.username = userData[0].Login;
     this.sub_station = userData[0].sub_station;
+    this.t_username = userData[0].Nome;
   }
 }

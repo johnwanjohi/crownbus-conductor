@@ -1,19 +1,19 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>
-      Bluetooth Receipt Print {{username}}
+      Receipt Print
     </ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content padding>
   <ion-list>
-    <ion-item>
-        <ion-label color="primary" floating>
-          <ion-icon name="calendar"></ion-icon>
-          Date
-        </ion-label>
-        <ion-input type="date" [(ngModel)]='inputData.date'></ion-input>
-      </ion-item>
+  <ion-item>
+      <ion-label color="primary" floating>
+        <ion-icon name="calendar"></ion-icon>
+        Date
+      </ion-label>
+      <ion-input type="date" [(ngModel)]='inputData.transdate'></ion-input>
+    </ion-item>
     <ion-item>
       <ion-label color="primary" floating>
         <ion-icon name="bus"></ion-icon>
@@ -36,6 +36,13 @@
       <ion-input [(ngModel)]='inputData.totown'></ion-input>
     </ion-item>
     <ion-item>
+        <ion-label color="primary" floating>
+          <ion-icon name="filling-round"></ion-icon>
+          Passenger Names
+        </ion-label>
+        <ion-input [(ngModel)]='inputData.passengernames'></ion-input>
+      </ion-item>
+    <ion-item>
       <ion-label color="primary" floating>
         <ion-icon name="cash"></ion-icon>
         Amount
@@ -44,5 +51,7 @@
     </ion-item>
     <div hidden></div>
   </ion-list>
-  <button ion-button full (click)="prepareToPrint(inputData)">Test print</button>
+  <button ion-button full (click)="prepareToPrint(inputData)">
+      <ion-icon slot="start" name="close-wallet"></ion-icon> &nbsp;&nbsp;&nbsp;&nbsp;Print
+    </button>
 </ion-content>

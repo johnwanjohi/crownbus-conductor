@@ -11,6 +11,10 @@ import { PrinterProvider } from './../providers/printer/printer';
 import { MyApp } from './app.component';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { UserProvider } from '../providers/user/user';
+import { RoadcollectionProvider } from '../providers/roadcollection/roadcollection';
+import { EnvironmentvarsProvider } from '../providers/environmentvars/environmentvars';
+import { LoginserviceProvider } from '../providers/loginservice/loginservice';
+import { PostgetProvider } from '../providers/postget/postget';
 
 @NgModule({
   declarations: [
@@ -37,7 +41,11 @@ import { UserProvider } from '../providers/user/user';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     BluetoothSerial,
     PrinterProvider,
-    UserProvider
+    UserProvider,
+    RoadcollectionProvider,
+    EnvironmentvarsProvider,
+    LoginserviceProvider,
+    PostgetProvider
   ]
 })
 export class AppModule {}

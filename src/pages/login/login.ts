@@ -1,18 +1,24 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 // import { Platform } from 'ionic-angular';
-import { Platform ,NavController, NavParams, AlertController, 
+import { Platform ,NavController, NavParams, AlertController,
   LoadingController} from 'ionic-angular';
 // import { HomePage } from '../home/home';
 import { DashboardPage } from '../dashboard/dashboard';
 import { UserProvider } from '../../providers/user/user';
+import { LoginserviceProvider } from '../../providers/loginservice/loginservice';
 // @IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  apiUrlCurrent = "https://crownbus-ea.com/crownbus_api";
+  public get userProvider(): UserProvider {
+    return this._userProvider;
+  }
+  public set userProvider(value: UserProvider) {
+    this._userProvider = value;
+  }
+  apiUrlCurrent : any; // = "https://crownbus-ea.com/crownbus_api";
   inputData: any = {};
   public alertShown:boolean = false;
   constructor(public platform: Platform,
@@ -20,15 +26,14 @@ export class LoginPage {
     public navCtrl: NavController,
     private alertCtrl: AlertController,
     private loadCtrl: LoadingController,
-    private _userProvider: UserProvider,
-    // private toastCtrl: ToastController,
-    private http: HttpClient) {
+    public userService: LoginserviceProvider,
+    private _userProvider: UserProvider ) {
       platform.ready().then(() => {
         //statusBar.styleDefault();
         //splashScreen.hide();
         platform.registerBackButtonAction(() => {
           if (this.alertShown==false) {
-            this.exitConfirm();  
+            this.exitConfirm();
           }
         }, 0)
       });
@@ -41,15 +46,16 @@ export class LoginPage {
       let load = this.loadCtrl.create({
         content: 'Logingin...',
       });
-      load.present();  
-      this.http.post(this.apiUrlCurrent+"/login/", 
+      load.present();
+      // this.http.post(this.apiUrlCurrent+"/login/",
+      this.userService.login(
         this.inputData
       ).subscribe((response) => {
-        console.log(response[0].error);        
+        console.log(response[0].error);
         console.dir(response);
         this._userProvider.setUserDetails(response);
         if (response[0].error == undefined){
-          console.log('--------no error---------------');          
+          console.log('--------no error---------------');
           console.log(this.inputData);
           let alertstr = this.alertCtrl.create({
             title: 'Successful login!',
@@ -59,11 +65,10 @@ export class LoginPage {
                 text: 'Ok',
                 handler: () => {
                   load.dismiss();
-                  // this.printer.disconnectBluetooth();                  
                 },
               },
             ],
-          });          
+          });
           alertstr.present();
           load.dismiss();
           this.navCtrl.push(DashboardPage,{userData: this.inputData,response: response});
@@ -77,15 +82,13 @@ export class LoginPage {
                 text: 'Ok',
                 handler: () => {
                   load.dismiss();
-                  // this.printer.disconnectBluetooth();
-                  /// this.navCtrl.push(HomePage,{userData: this.inputData});
                 },
               },
             ],
           });
-          alertstr.present();          
+          alertstr.present();
         }
-      });      
+      });
     } else{
       let alert = this.alertCtrl.create({
         title: 'Required',
@@ -95,14 +98,12 @@ export class LoginPage {
             text: 'Okay',
             role: 'cancel',
             handler: () => {
-              // console.log('Cancel clicked');
-              // this.alertShown=false;
             }
           }
         ]
       });
        alert.present();
-    }    
+    }
   }
   exitConfirm() {
     let alert = this.alertCtrl.create({
@@ -115,7 +116,6 @@ export class LoginPage {
           handler: () => {
             console.log('Cancel clicked');
             this.alertShown=false;
-            //this.load.dismiss();
           }
         },
         {
@@ -131,5 +131,4 @@ export class LoginPage {
       this.alertShown=true;
     });
   }
-
 }

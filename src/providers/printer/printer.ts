@@ -25,5 +25,4 @@ export class PrinterProvider {
   disconnectBluetooth(){
     return this.bluetoothSerial.disconnect();
   }
-
 }

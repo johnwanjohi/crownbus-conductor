@@ -8,6 +8,8 @@ import {
 import { PrinterProvider } from './../../providers/printer/printer';
 import { commands } from './../../providers/printer/printer-commands';
 import { UserProvider } from '../../providers/user/user';
+import { RoadcollectionProvider } from '../../providers/roadcollection/roadcollection';
+// import { DashboardPage } from '../dashboard/dashboard';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -15,7 +17,7 @@ import { UserProvider } from '../../providers/user/user';
 export class HomePage {
   receipt: any;
   inputData: any = {};
-  username: any;
+  t_username: any;
   condMobileNumber: any;
   constructor(
     public navCtrl: NavController,
@@ -24,11 +26,12 @@ export class HomePage {
     private loadCtrl: LoadingController,
     private toastCtrl: ToastController,
     public navParams: NavParams,
-    public userProvider: UserProvider
+    public userProvider: UserProvider,
+    public roadCollectionService: RoadcollectionProvider
   ) {
     // console.dir(this.navParams.data.userData.username)
     // alert(this.navParams.data.response[0].Nome);
-    this.username = userProvider.username;     
+    this.t_username = userProvider.t_username;
   }
 
   showToast(data) {
@@ -39,7 +42,7 @@ export class HomePage {
     });
     toast.present();
   }
-  
+
   noSpecialChars(string) {
     var translate = {
         à: 'a',
@@ -112,8 +115,8 @@ export class HomePage {
       return translate[match];
     });
   }
-
   print(device, data) {
+    // data.username = this.username;
     console.log('Device mac: ', device);
     console.log('Data: ', data);
     let load = this.loadCtrl.create({
@@ -181,13 +184,14 @@ export class HomePage {
   prepareToPrint(data) {
     // u can remove this when generate the receipt using another method
     if (!data.title) {
-      data.title = 'Title';
+      // data.title = 'Title';
     }
     if (!data.text) {
       data.text =
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tellus sapien, aliquam id mattis et, pretium eu libero. In dictum mauris vel lorem porttitor, et tempor neque semper. Aliquam erat volutpat. Aliquam vel malesuada urna, a pulvinar augue. Nunc ac fermentum massa. Proin efficitur purus fermentum tellus fringilla, fringilla aliquam nunc dignissim. Duis et luctus tellus, sed ullamcorper lectus.';
     }
-
+    data.title = 'CROWN BUS LTD';
+    data.username = this.t_username;
     let receipt = '';
     receipt += commands.HARDWARE.HW_INIT;
     receipt += commands.TEXT_FORMAT.TXT_4SQUARE;
@@ -200,15 +204,52 @@ export class HomePage {
     receipt += commands.HORIZONTAL_LINE.HR2_58MM;
     receipt += commands.EOL;
     receipt += commands.TEXT_FORMAT.TXT_ALIGN_LT;
-    receipt += data.text;
+    receipt += "Issue Date     " ;//+ data.transdate;
+    receipt += commands.EOL;
+    receipt += commands.EOL;
+    receipt += "ID No.    Show ID ";
+    receipt += commands.EOL;
+    receipt += commands.EOL;
+    receipt += data.passengernames;
+    receipt += commands.EOL;
+    receipt += commands.EOL;
+    receipt += "Serial No     " + 'data.ref';
+    receipt += commands.EOL;
+    receipt += commands.EOL;
+    receipt += commands.TEXT_FORMAT.TXT_BOLD_ON;
+    receipt += "From   " + commands.TEXT_FORMAT.TXT_BOLD_OFF + data.fromtown;
+    receipt += commands.EOL;
+    receipt += commands.EOL;
+    receipt += commands.TEXT_FORMAT.TXT_BOLD_ON + "To    " + commands.TEXT_FORMAT.TXT_BOLD_OFF + data.totown;
+    receipt += commands.EOL;
+    receipt += commands.EOL;
+    receipt += commands.TEXT_FORMAT.TXT_BOLD_ON + "Amount      " ;
+    receipt += commands.TEXT_FORMAT.TXT_BOLD_OFF + data.amount + " KES";
+    receipt += commands.EOL;
+    receipt += commands.EOL;
+    receipt += commands.EOL;
+    receipt += commands.TEXT_FORMAT.TXT_BOLD_ON + "Thank you for choosing Crown Bus." ;
+    receipt += commands.EOL;
+    receipt += commands.TEXT_FORMAT.TXT_BOLD_ON + commands.TEXT_FORMAT.TXT_ITALIC_ON + "Cash once paid is NOT refundable or transferable." ;
+    receipt += commands.TEXT_FORMAT.TXT_BOLD_ON + commands.TEXT_FORMAT.TXT_ITALIC_OFF ;
+    receipt += commands.EOL;
+    receipt += commands.EOL;
+    receipt += commands.TEXT_FORMAT.TXT_BOLD_ON + "You were served by " ;
+    receipt += commands.EOL;
+    receipt += commands.EOL;
+    receipt += commands.TEXT_FORMAT.TXT_BOLD_ON + commands.TEXT_FORMAT.TXT_ITALIC_ON + data.username; // "John Wanjohi" ;
     //secure space on footer
+    receipt += commands.EOL;
+    receipt += commands.EOL;
+    receipt += commands.EOL;
+    receipt += commands.EOL;
+    receipt += commands.EOL;
     receipt += commands.EOL;
     receipt += commands.EOL;
     receipt += commands.EOL;
     //this.receipt = receipt;
     this.mountAlertBt(receipt);
   }
-
   mountAlertBt(data) {
     this.receipt = data;
     let alert = this.alertCtrl.create({
@@ -262,4 +303,58 @@ export class HomePage {
         this.mountAlertBt(this.receipt);
       });
   }
+  saveReceipt(inputData){
+    console.log('>>================>>>>');
+    this.inputData = inputData;
+    // if (this.inputData.username != undefined && this.inputData.password != undefined){
+      let load = this.loadCtrl.create({
+        content: 'Generating ticket...',
+      });
+      load.present();
+      // this.http.post(this.apiUrlCurrent+"/login/",
+      this.roadCollectionService.createReceipt(
+        this.inputData
+      ).subscribe((response) => {
+        console.log(response[0].error);
+        console.dir(response);
+        // this._userProvider.setUserDetails(response);
+        if (response[0].error == undefined){
+          console.log('--------no error---------------');
+          console.log(this.inputData);
+          let alertstr = this.alertCtrl.create({
+            title: 'Successful generation of receipt!!',
+            message: "<b>Proceeding to printing</b>",
+            buttons: [
+              {
+                text: 'Ok',
+                handler: () => {
+                  load.dismiss();
+                },
+              },
+            ],
+          });
+          alertstr.present();
+          load.dismiss();
+          // this.navCtrl.push(DashboardPage,{userData: this.inputData,response: response});
+          return true;
+        }else{
+          console.log('----------error-------------')
+          let alertstr = this.alertCtrl.create({
+            title: 'Unsuccessful generation of receipt!',
+            message: response[0].error,
+            buttons: [
+              {
+                text: 'Ok',
+                handler: () => {
+                  load.dismiss();
+                },
+              },
+            ],
+          });
+          alertstr.present();
+          return false;
+        }
+      });
+    }
+
 }
