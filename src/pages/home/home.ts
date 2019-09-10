@@ -183,6 +183,8 @@ export class HomePage {
 
   prepareToPrint(data) {
     // u can remove this when generate the receipt using another method
+    // new Date(year, month, day, hours, minutes, seconds, milliseconds);
+    let dateYr = new Date();
     if (!data.title) {
       // data.title = 'Title';
     }
@@ -192,6 +194,7 @@ export class HomePage {
     }
     data.title = 'CROWN BUS LTD';
     data.username = this.t_username;
+    // let date = dateYr.getFullYear + "-" + dateYr.getUTCMonth + "-" + dateYr.getUTCDay
     let receipt = '';
     receipt += commands.HARDWARE.HW_INIT;
     receipt += commands.TEXT_FORMAT.TXT_4SQUARE;
@@ -204,7 +207,7 @@ export class HomePage {
     receipt += commands.HORIZONTAL_LINE.HR2_58MM;
     receipt += commands.EOL;
     receipt += commands.TEXT_FORMAT.TXT_ALIGN_LT;
-    receipt += "Issue Date     " ;//+ data.transdate;
+    receipt += "Issue Date     " + data.transdate;
     receipt += commands.EOL;
     receipt += commands.EOL;
     receipt += "ID No.    Show ID ";
@@ -239,9 +242,6 @@ export class HomePage {
     receipt += commands.EOL;
     receipt += commands.TEXT_FORMAT.TXT_BOLD_ON + commands.TEXT_FORMAT.TXT_ITALIC_ON + data.username; // "John Wanjohi" ;
     //secure space on footer
-    receipt += commands.EOL;
-    receipt += commands.EOL;
-    receipt += commands.EOL;
     receipt += commands.EOL;
     receipt += commands.EOL;
     receipt += commands.EOL;
