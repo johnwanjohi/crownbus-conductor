@@ -9,6 +9,7 @@ export class PostgetProvider {
     this.apiUrlCurrent = env.apiUrlCurrent;
   }
   postProp(_postData, endPoint: string){
+    console.dir(_postData);
     this.inputData = _postData;
     return this.http.post( this.apiUrlCurrent + endPoint,
         this.inputData

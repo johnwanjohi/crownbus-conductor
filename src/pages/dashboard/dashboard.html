@@ -7,18 +7,38 @@
     <ion-card>
         <ion-card-header color="primary">
           <b>What to do</b>
-        </ion-card-header>      
+        </ion-card-header>
         <ion-list color="primary">
+            <ion-item>
+                <ion-label color="primary">Select Vehicle </ion-label>
+                <ion-select (onChange)="selectVehicle()" [(ngModel)]="selectedVehicle"  ionChange="onChange($event)">
+                    <ion-option *ngFor="let item of userProvider.listOfScheduledVehicles" [value]="item.regno">{{item.regno + ' - '  + item.depdate }}</ion-option>
+                </ion-select>
+            </ion-item>
+            <!--
+            <ion-item>
+                <ion-label>Select Vehicle</ion-label>
+                <select-searchable #selectVehicleSearch
+                item-content
+                [(ngModel)]="inputData.regno"
+                [items]="vehiclesToSelectData"
+                itemValueField="vehiclesToSelectData.regno"
+                itemTextField="vehiclesToSelectData.regno + '-' + vehiclesToSelectData.depdate"
+                [canSearch]="false"
+                (change)="vehicleSelected($event)"
+                >
+                </select-searchable>
+
+              </ion-item>
+            -->
           <button ion-item (click)="navigateToHomePage()">
             <ion-icon color="primary" name="cart" item-start></ion-icon>
             Print Receipt
           </button>
-      
           <button ion-item>
             <ion-icon color="primary" name="medical" item-start></ion-icon>
             View Buses you've been scheduled
           </button>
-      
         </ion-list>
       </ion-card>
 </ion-content>

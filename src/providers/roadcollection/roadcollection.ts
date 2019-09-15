@@ -8,12 +8,16 @@ export class RoadcollectionProvider {
   }
   getAllocatedVehicle(_inputData: any) {
     this.inputData = _inputData;
-    this.postGetService.postProp
-    return this.postGetService.postProp(this.inputData,"/roadcollection/?action=getallocatedvehicle");
+    // this.postGetService.postProp
+    console.log("Conductor names ====== " + _inputData);
+    return this.postGetService.getProp("/roadcollection/?action=getallocatedvehicle&conductor="+_inputData);
   }
   createReceipt(_inputData: any) {
+    console.dir("creating receipt data" + _inputData);
+    console.dir(JSON.stringify( _inputData));
+    console.log('creating receipt!!!!!!!!!!' + _inputData);
     this.inputData = _inputData;
-    this.postGetService.postProp
-    return this.postGetService.postProp(this.inputData,"/roadcollection/?action=getallocatedvehicle");
+    // this.postGetService.postProp
+    return this.postGetService.postProp(this.inputData,"/roadcollection/?action=CreateRoadCollection");
   }
 }

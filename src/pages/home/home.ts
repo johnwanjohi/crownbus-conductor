@@ -17,8 +17,10 @@ import { RoadcollectionProvider } from '../../providers/roadcollection/roadcolle
 export class HomePage {
   receipt: any;
   inputData: any = {};
+  // inputData2: any = [];
   t_username: any;
   condMobileNumber: any;
+  savedReceipt: any;
   constructor(
     public navCtrl: NavController,
     private printer: PrinterProvider,
@@ -32,6 +34,23 @@ export class HomePage {
     // console.dir(this.navParams.data.userData.username)
     // alert(this.navParams.data.response[0].Nome);
     this.t_username = userProvider.t_username;
+    this.inputData.reg_no = userProvider.allocatedRegNo;
+    this.inputData.depdate = userProvider.depdate;
+    this.inputData.openbookref = userProvider.openbookref
+    this.inputData.routecode = userProvider.routecode;
+    this.inputData.regno = userProvider.allocatedRegNo;
+    this.inputData.t_username = userProvider.t_username;
+    this.inputData.sub_station = userProvider.sub_station;
+    this.inputData.t_station = userProvider.t_station;
+    this.inputData.conductor_road = userProvider.t_username;
+    this.inputData.conductor = userProvider.t_username;
+    this.inputData.conductor_road = userProvider.t_username;
+    this.inputData.bookdate = userProvider.depdate;
+
+    console.log(" >====================< allocated vehicle "+ userProvider.allocatedRegNo);
+    console.log(" >====================< allocated bookdate "+ userProvider.depdate);
+    console.log(" >====================< allocated openbookref "+ userProvider.openbookref);
+    console.log(" >====================< allocated routecode "+ userProvider.allocatedRouteCode);
   }
 
   showToast(data) {
@@ -120,7 +139,7 @@ export class HomePage {
     console.log('Device mac: ', device);
     console.log('Data: ', data);
     let load = this.loadCtrl.create({
-      content: 'Printing...',
+      content: 'Printing....',
     });
     load.present();
     this.printer.connectBluetooth(device).subscribe(
@@ -171,7 +190,6 @@ export class HomePage {
               text: 'Ok',
               handler: () => {
                 load.dismiss();
-                //this.printer.disconnectBluetooth();
               },
             },
           ],
@@ -181,25 +199,32 @@ export class HomePage {
     );
   }
 
-  prepareToPrint(data) {
+  prepareToPrint(_data: any) {
     // u can remove this when generate the receipt using another method
     // new Date(year, month, day, hours, minutes, seconds, milliseconds);
-    let dateYr = new Date();
-    if (!data.title) {
-      // data.title = 'Title';
-    }
-    if (!data.text) {
-      data.text =
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tellus sapien, aliquam id mattis et, pretium eu libero. In dictum mauris vel lorem porttitor, et tempor neque semper. Aliquam erat volutpat. Aliquam vel malesuada urna, a pulvinar augue. Nunc ac fermentum massa. Proin efficitur purus fermentum tellus fringilla, fringilla aliquam nunc dignissim. Duis et luctus tellus, sed ullamcorper lectus.';
-    }
-    data.title = 'CROWN BUS LTD';
-    data.username = this.t_username;
+    // let dateYr = new Date();
+    let data: any;
+    let title:any =  'CROWN BUS LTD';
+    data = _data ;// await this.saveReceipt(_data);
+    console.dir(_data);//.error
+    console.log("============<<<<prepareToPrint<<<<<<<<<>>>>>>>>");
+    console.dir(JSON.stringify(data));
+    console.log("============<<<<<<<<prepareToPrint<<<<<**>>>>>>>>");
+    // let data = dataSaved;
+    // if (!dataSaved.title) {
+      //data.title = 'Title';
+    //}
+    // if (!data.text) {
+      //data.text =      'Lorem ipsum dolor sit amet, consectetur adipiscing mcorper lectus.';
+    //}
+    
+    // data.username = this.t_username;
     // let date = dateYr.getFullYear + "-" + dateYr.getUTCMonth + "-" + dateYr.getUTCDay
     let receipt = '';
     receipt += commands.HARDWARE.HW_INIT;
     receipt += commands.TEXT_FORMAT.TXT_4SQUARE;
     receipt += commands.TEXT_FORMAT.TXT_ALIGN_CT;
-    receipt += data.title.toUpperCase();
+    receipt += title.toUpperCase();
     receipt += commands.EOL;
     receipt += commands.TEXT_FORMAT.TXT_NORMAL;
     receipt += commands.HORIZONTAL_LINE.HR_58MM;
@@ -211,12 +236,14 @@ export class HomePage {
     receipt += commands.EOL;
     receipt += commands.EOL;
     receipt += "ID No.    Show ID ";
+    receipt += commands.EOL;    
     receipt += commands.EOL;
+    // receipt += data.passengernames;
+    receipt += data.routecode;
     receipt += commands.EOL;
-    receipt += data.passengernames;
+    receipt += data.reg_no;
     receipt += commands.EOL;
-    receipt += commands.EOL;
-    receipt += "Serial No     " + 'data.ref';
+    receipt += "Serial No     " + data.ref;
     receipt += commands.EOL;
     receipt += commands.EOL;
     receipt += commands.TEXT_FORMAT.TXT_BOLD_ON;
@@ -240,15 +267,23 @@ export class HomePage {
     receipt += commands.TEXT_FORMAT.TXT_BOLD_ON + "You were served by " ;
     receipt += commands.EOL;
     receipt += commands.EOL;
-    receipt += commands.TEXT_FORMAT.TXT_BOLD_ON + commands.TEXT_FORMAT.TXT_ITALIC_ON + data.username; // "John Wanjohi" ;
+    receipt += commands.TEXT_FORMAT.TXT_BOLD_ON + commands.TEXT_FORMAT.TXT_ITALIC_ON + data.t_username; // "John Wanjohi" ;
+    receipt += commands.EOL;
+    receipt += commands.TEXT_FORMAT.TXT_BOLD_ON + commands.TEXT_FORMAT.TXT_ITALIC_ON + data.received_time;
     //secure space on footer
     receipt += commands.EOL;
     receipt += commands.EOL;
     receipt += commands.EOL;
     receipt += commands.EOL;
     receipt += commands.EOL;
+    receipt += commands.EOL;
     //this.receipt = receipt;
-    this.mountAlertBt(receipt);
+    // if (dataSaved == true){
+      this.mountAlertBt(receipt);
+    // }else{
+      console.log("data not saved");
+    //}
+
   }
   mountAlertBt(data) {
     this.receipt = data;
@@ -303,23 +338,27 @@ export class HomePage {
         this.mountAlertBt(this.receipt);
       });
   }
-  saveReceipt(inputData){
+  saveReceipt(_inputData: any) :any{
+    console.log('>>=====saveReceipt===========>>>>');
+    this.inputData = _inputData;
+    console.dir("somedata"+  JSON.stringify( _inputData));
     console.log('>>================>>>>');
-    this.inputData = inputData;
     // if (this.inputData.username != undefined && this.inputData.password != undefined){
       let load = this.loadCtrl.create({
         content: 'Generating ticket...',
       });
-      load.present();
+      // load.present();
       // this.http.post(this.apiUrlCurrent+"/login/",
       this.roadCollectionService.createReceipt(
         this.inputData
       ).subscribe((response) => {
-        console.log(response[0].error);
-        console.dir(response);
+        console.log("saved receipt finally receipt response");
+        console.dir(JSON.stringify(response));
+        console.dir(JSON.stringify(response[0]));
         // this._userProvider.setUserDetails(response);
         if (response[0].error == undefined){
-          console.log('--------no error---------------');
+          this.savedReceipt = response;
+          console.log('--------no error--------------');
           console.log(this.inputData);
           let alertstr = this.alertCtrl.create({
             title: 'Successful generation of receipt!!',
@@ -334,11 +373,13 @@ export class HomePage {
             ],
           });
           alertstr.present();
+
           load.dismiss();
           // this.navCtrl.push(DashboardPage,{userData: this.inputData,response: response});
-          return true;
+          this.prepareToPrint(response[0]);
+          return response[0];
         }else{
-          console.log('----------error-------------')
+          console.log('----------error------------')
           let alertstr = this.alertCtrl.create({
             title: 'Unsuccessful generation of receipt!',
             message: response[0].error,
@@ -352,9 +393,9 @@ export class HomePage {
             ],
           });
           alertstr.present();
-          return false;
+          load.dismiss();
+          return response[0];
         }
       });
     }
-
 }

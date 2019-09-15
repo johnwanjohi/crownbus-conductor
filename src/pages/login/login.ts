@@ -6,6 +6,8 @@ import { Platform ,NavController, NavParams, AlertController,
 import { DashboardPage } from '../dashboard/dashboard';
 import { UserProvider } from '../../providers/user/user';
 import { LoginserviceProvider } from '../../providers/loginservice/loginservice';
+import { RoadcollectionProvider } from '../../providers/roadcollection/roadcollection';
+
 // @IonicPage()
 @Component({
   selector: 'page-login',
@@ -27,7 +29,8 @@ export class LoginPage {
     private alertCtrl: AlertController,
     private loadCtrl: LoadingController,
     public userService: LoginserviceProvider,
-    private _userProvider: UserProvider ) {
+    private _userProvider: UserProvider ,
+    public roadCollectionProvider: RoadcollectionProvider) {
       platform.ready().then(() => {
         //statusBar.styleDefault();
         //splashScreen.hide();
@@ -55,7 +58,7 @@ export class LoginPage {
         console.dir(response);
         this._userProvider.setUserDetails(response);
         if (response[0].error == undefined){
-          console.log('--------no error---------------');
+          console.log('---1-----no error---------------');
           console.log(this.inputData);
           let alertstr = this.alertCtrl.create({
             title: 'Successful login!',
@@ -71,6 +74,19 @@ export class LoginPage {
           });
           alertstr.present();
           load.dismiss();
+          this.roadCollectionProvider.getAllocatedVehicle(response[0].Nome).subscribe((scheduledvehicle) =>{
+              console.log("==============error==========>>>" ); //+ scheduledvehicle[0].error);
+              console.dir(scheduledvehicle);
+              if (scheduledvehicle[0].error == undefined ){
+                console.dir(scheduledvehicle[0]);
+                console.log(" ====scheduled vehicle====== " + scheduledvehicle[0].regno );
+                this._userProvider.setllocatedVehicle(scheduledvehicle);
+               //  alert("Dear " + response[0].Nome + ", you have not yet been scheduled " + scheduledvehicle[0].regno  + " today." )
+              }else{
+               // alert("Dear " + response[0].Nome + ", you have not yet been scheduled any vehicle today." )
+              }
+            }
+          );
           this.navCtrl.push(DashboardPage,{userData: this.inputData,response: response});
         }else{
           console.log('----------error-------------')

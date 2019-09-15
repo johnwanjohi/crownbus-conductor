@@ -15,7 +15,7 @@ import { RoadcollectionProvider } from '../providers/roadcollection/roadcollecti
 import { EnvironmentvarsProvider } from '../providers/environmentvars/environmentvars';
 import { LoginserviceProvider } from '../providers/loginservice/loginservice';
 import { PostgetProvider } from '../providers/postget/postget';
-
+import { SelectSearchableModule } from 'ionic-select-searchable';
 @NgModule({
   declarations: [
     MyApp,
@@ -26,6 +26,7 @@ import { PostgetProvider } from '../providers/postget/postget';
   imports: [
     BrowserModule,
     HttpClientModule,
+    SelectSearchableModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],

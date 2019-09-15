@@ -2202,6 +2202,11 @@ ionic-angular@3.9.2:
   resolved "https://registry.yarnpkg.com/ionic-angular/-/ionic-angular-3.9.2.tgz#75053e4a422aaae7d7cd668cc92cfd5cb29d38cc"
   integrity sha512-BEZ6magY1i5GwM9ki/MOpszUz62+g518HsGICtw9TE1D4v9Eb6n/o7e+X0vtvpK4TdouFjQ8r5XA9VPAKW9/+Q==
 
+ionic-select-searchable@^2.10.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/ionic-select-searchable/-/ionic-select-searchable-2.10.0.tgz#16f502c18cae19c0d3dde3624755093e80cf37ef"
+  integrity sha512-ZFDLJgvEhp+ALxDW4ExEQmEOLuQ/tAt+yCmYVOXK8bBuqF1HJmtEzcsZAQGbVxeO8IZbQgjH8BnfR6G1oVuv4w==
+
 ionicons@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/ionicons/-/ionicons-3.0.0.tgz#40b8daf4fd7a31150bd002160f66496e22a98c3c"
