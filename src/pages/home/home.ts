@@ -9,7 +9,14 @@ import { PrinterProvider } from './../../providers/printer/printer';
 import { commands } from './../../providers/printer/printer-commands';
 import { UserProvider } from '../../providers/user/user';
 import { RoadcollectionProvider } from '../../providers/roadcollection/roadcollection';
+import { IonicSelectableModule, IonicSelectableComponent } from 'ionic-selectable';
 // import { DashboardPage } from '../dashboard/dashboard';
+class FromTown {
+  public fromTown: string;
+}
+class ToTown {
+  public toTown: string;
+}
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -21,6 +28,10 @@ export class HomePage {
   t_username: any;
   condMobileNumber: any;
   savedReceipt: any;
+  fromTowns: any ;// FromTown[];
+  fromTown: any;// FromTown;
+  toTowns: any;//ToTown[];
+  toTown: any;//ToTown;
   constructor(
     public navCtrl: NavController,
     private printer: PrinterProvider,
@@ -47,10 +58,52 @@ export class HomePage {
     this.inputData.conductor_road = userProvider.t_username;
     this.inputData.bookdate = userProvider.depdate;
 
+    /*
+    this.fromTowns = [
+      { fromTown: 'Tokai' },
+      { fromTown: 'Vladivostok' },
+      { fromTown: 'Navlakhi' }
+    ];
+    */
+    this.roadCollectionService.getFromToTown().subscribe(_fromtowns => {
+      this.fromTowns = _fromtowns;
+      this.toTowns = _fromtowns;
+      //this.fromTown = _fromtowns;
+      console.dir(_fromtowns);
+    }  );
+    /*
+    this.toTowns = [
+      { toTown: 'Tokai' },
+      { toTown: 'Vladivostok' },
+      { toTown: 'Navlakhi' }
+    ];
+    */
+   /*
+    this.roadCollectionService.getFromToTown().subscribe(_fromtowns => {
+      this.toTowns = _fromtowns;
+      this.fromTown = _fromtowns;
+    } );
+    */
     console.log(" >====================< allocated vehicle "+ userProvider.allocatedRegNo);
     console.log(" >====================< allocated bookdate "+ userProvider.depdate);
     console.log(" >====================< allocated openbookref "+ userProvider.openbookref);
     console.log(" >====================< allocated routecode "+ userProvider.allocatedRouteCode);
+  }
+  fromTownChange(event: {
+    component: IonicSelectableComponent,
+    value: any
+  }) {
+    console.dir( JSON.stringify( event.value));
+    console.log('From Town Change:', this.inputData.fromtown, event.value.fromtotown);
+    this.inputData.fromtown = event.value.fromtotown;
+  }
+  toTownChange(event: {
+    component: IonicSelectableComponent,
+    value: any
+  }) {
+    console.dir(JSON.stringify( event.value));
+    console.log('To Town Change:', event.value.fromtotown);
+    this.inputData.totown = event.value.fromtotown;
   }
 
   showToast(data) {
@@ -217,7 +270,7 @@ export class HomePage {
     // if (!data.text) {
       //data.text =      'Lorem ipsum dolor sit amet, consectetur adipiscing mcorper lectus.';
     //}
-    
+
     // data.username = this.t_username;
     // let date = dateYr.getFullYear + "-" + dateYr.getUTCMonth + "-" + dateYr.getUTCDay
     let receipt = '';
@@ -236,7 +289,7 @@ export class HomePage {
     receipt += commands.EOL;
     receipt += commands.EOL;
     receipt += "ID No.    Show ID ";
-    receipt += commands.EOL;    
+    receipt += commands.EOL;
     receipt += commands.EOL;
     // receipt += data.passengernames;
     receipt += data.routecode;

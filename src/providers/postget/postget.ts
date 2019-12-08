@@ -16,6 +16,7 @@ export class PostgetProvider {
     );
   }
   getProp(endPoint: string){
+    console.log(endPoint);
     return this.http.get( this.apiUrlCurrent + endPoint,
         this.inputData
     );

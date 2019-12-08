@@ -29,6 +29,7 @@
       </ion-label>
       <ion-input [(ngModel)]='inputData.reg_no'></ion-input>
     </ion-item>
+    <!--
     <ion-item>
       <ion-label color="primary" floating>
         <ion-icon name="arrow-round-down"></ion-icon>
@@ -36,6 +37,21 @@
       </ion-label>
       <ion-input [(ngModel)]='inputData.fromtown'></ion-input>
     </ion-item>
+  -->
+    <ion-item>
+      <ion-label color="primary" floating>From Town
+      </ion-label>
+      <ionic-selectable
+        item-content
+        [(ngModel)]="inputData.fromtownx"
+        [items]="fromTowns"
+        itemValueField="fromtotown"
+        itemTextField="fromtotown"
+        [canSearch]="true"
+        (onChange)="fromTownChange($event)">
+      </ionic-selectable>
+    </ion-item>
+    <!--
     <ion-item>
       <ion-label color="primary" floating>
         <ion-icon name="arrow-round-forward"></ion-icon>
@@ -43,6 +59,20 @@
       </ion-label>
       <ion-input [(ngModel)]='inputData.totown'></ion-input>
     </ion-item>
+  -->
+  <ion-item>
+    <ion-label color="primary" floating>To Town
+    </ion-label>
+    <ionic-selectable
+      item-content
+      [(ngModel)]="inputData.totownx"
+      [items]="fromTowns"
+      itemValueField="fromtotown"
+      itemTextField="fromtotown"
+      [canSearch]="true"
+      (onChange)="toTownChange($event)">
+    </ionic-selectable>
+  </ion-item>
     <ion-item>
         <ion-label color="primary" floating>
           <ion-icon name="filling-round"></ion-icon>
@@ -62,7 +92,7 @@
   <!--
   <button ion-button full (click)="prepareToPrint(inputData)">
   -->
-  <button ion-button full (click)="saveReceipt(inputData)">   
+  <button ion-button full (click)="saveReceipt(inputData)">
       <ion-icon slot="start" name="close-wallet"></ion-icon> &nbsp;&nbsp;&nbsp;&nbsp;Print
     </button>
 </ion-content>

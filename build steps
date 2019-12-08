@@ -1,0 +1,15 @@
+ionic cordova build android --prod --release
+
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore C:\xampp\htdocs\angular4\crownbus-conductor\crownbuscond.jks app-release-unsigned.apk crownbus-cond
+
+C:\Android\android-sdk\build-tools\28.0.3\zipalign.exe -v 4 app-release-unsigned.apk crownbus-condd.apk
+
+
+
+<!---
+ionic cordova run --l --c --verborse
+keytool -genkey -v -keystore crownbuscond.jks -keyalg RSA -keysize 2048 -validity 10000 -alias Crownbus Conductor
+
+C:\Android\android-sdk\build-tools\28.0.3\zipalign.exe -v 4   C:\xampp\htdocs\angular4\crownbus-conductor\platforms\android\app\build\outputs\apk\release\app-release-unsigned.apk crownbus-cond.apk
+--__>>>
+

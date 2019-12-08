@@ -1,4 +1,4 @@
-import { ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule ,NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
@@ -16,6 +16,7 @@ import { EnvironmentvarsProvider } from '../providers/environmentvars/environmen
 import { LoginserviceProvider } from '../providers/loginservice/loginservice';
 import { PostgetProvider } from '../providers/postget/postget';
 import { SelectSearchableModule } from 'ionic-select-searchable';
+import { IonicSelectableModule } from 'ionic-selectable';
 @NgModule({
   declarations: [
     MyApp,
@@ -27,7 +28,12 @@ import { SelectSearchableModule } from 'ionic-select-searchable';
     BrowserModule,
     HttpClientModule,
     SelectSearchableModule,
+    IonicSelectableModule,
     IonicModule.forRoot(MyApp)
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA
   ],
   bootstrap: [IonicApp],
   entryComponents: [
