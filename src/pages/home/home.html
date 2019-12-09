@@ -19,7 +19,7 @@
         <ion-icon name="calendar"></ion-icon>
         Route
       </ion-label>
-      <ion-input [(ngModel)]='inputData.routecode'></ion-input>
+      <ion-input [readonly]="true" [(ngModel)]='inputData.routecode'></ion-input>
       <ion-input type="hidden" [(ngModel)]='inputData.openbookref'></ion-input>
     </ion-item>
     <ion-item>
@@ -27,7 +27,7 @@
         <ion-icon name="bus"></ion-icon>
         V. Reg. No
       </ion-label>
-      <ion-input [(ngModel)]='inputData.reg_no'></ion-input>
+      <ion-input [readonly]="true" [(ngModel)]='inputData.reg_no'></ion-input>
     </ion-item>
     <!--
     <ion-item>
@@ -93,6 +93,8 @@
   <button ion-button full (click)="prepareToPrint(inputData)">
   -->
   <button ion-button full (click)="saveReceipt(inputData)">
-      <ion-icon slot="start" name="close-wallet"></ion-icon> &nbsp;&nbsp;&nbsp;&nbsp;Print
-    </button>
+    <ion-icon name="print"></ion-icon>&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+    Print
+  </button>
 </ion-content>

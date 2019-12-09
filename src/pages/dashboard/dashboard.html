@@ -6,13 +6,17 @@
 <ion-content padding >
     <ion-card>
         <ion-card-header color="primary">
-          <b>What to do</b>
+          <h1><b>What to do</b></h1><br>{{names}}
         </ion-card-header>
+        <button ion-item (click)="resetVehicles()">
+          <ion-icon color="primary" name="refresh" item-start></ion-icon>
+          Reload Vehicle List
+        </button>
         <ion-list color="primary">
             <ion-item>
                 <ion-label color="primary">Select Vehicle </ion-label>
-                <ion-select (onChange)="selectVehicle()" [(ngModel)]="selectedVehicle"  ionChange="onChange($event)">
-                    <ion-option *ngFor="let item of userProvider.listOfScheduledVehicles" [value]="item.regno">{{item.regno + ' - '  + item.depdate }}</ion-option>
+                <ion-select (onChange)="selectVehicle()" [(ngModel)]="selectedVehicle"  (ionChange)="onChange($event)">
+                    <ion-option *ngFor="let item of userProvider.listOfScheduledVehicles" [value]="item.ref">{{item.regno + '-'  + item.depdate + '-'  + item.deptime + '-'  + item.routecode }}</ion-option>
                 </ion-select>
             </ion-item>
             <!--
@@ -37,7 +41,7 @@
           </button>
           <button ion-item>
             <ion-icon color="primary" name="medical" item-start></ion-icon>
-            View Buses you've been scheduled
+            View Receipts
           </button>
         </ion-list>
       </ion-card>

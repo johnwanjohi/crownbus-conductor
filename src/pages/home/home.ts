@@ -263,16 +263,6 @@ export class HomePage {
     console.log("============<<<<prepareToPrint<<<<<<<<<>>>>>>>>");
     console.dir(JSON.stringify(data));
     console.log("============<<<<<<<<prepareToPrint<<<<<**>>>>>>>>");
-    // let data = dataSaved;
-    // if (!dataSaved.title) {
-      //data.title = 'Title';
-    //}
-    // if (!data.text) {
-      //data.text =      'Lorem ipsum dolor sit amet, consectetur adipiscing mcorper lectus.';
-    //}
-
-    // data.username = this.t_username;
-    // let date = dateYr.getFullYear + "-" + dateYr.getUTCMonth + "-" + dateYr.getUTCDay
     let receipt = '';
     receipt += commands.HARDWARE.HW_INIT;
     receipt += commands.TEXT_FORMAT.TXT_4SQUARE;

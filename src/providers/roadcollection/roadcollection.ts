@@ -8,8 +8,14 @@ export class RoadcollectionProvider {
   getAllocatedVehicle(_inputData: any) {
     this.inputData = _inputData;
     // this.postGetService.postProp
-    console.log("Conductor names ====== " + _inputData);
+    console.log("getAllocatedVehicle ====== /roadcollection/?action=getallocatedvehicle&conductor=" + _inputData);
     return this.postGetService.getProp("/roadcollection/?action=getallocatedvehicle&conductor="+_inputData);
+  }
+  getAllocatedVehicleOpenBookRef(_inputData: any) {
+    this.inputData = _inputData;
+    // this.postGetService.postProp
+    console.log("getAllocatedVehicle ====== /roadcollection/?action=getallocatedvehicle&ref=" + _inputData);
+    return this.postGetService.getProp("/roadcollection/?action=getallocatedvehicle&openbookref="+_inputData);
   }
   getFromToTown(_inputData?: any) {
     this.inputData = _inputData;

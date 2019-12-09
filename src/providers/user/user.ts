@@ -33,7 +33,7 @@ export class UserProvider {
 
   }
   setllocatedVehicle (scheduleDetails: any){
-    console.dir(scheduleDetails);
+    console.dir(JSON.stringify( scheduleDetails));
     console.log("==========scheduled vehicles==============>>>>>>");
     this.listOfScheduledVehicles = scheduleDetails ;
     this.allocatedRegNo = scheduleDetails[0].regno;
